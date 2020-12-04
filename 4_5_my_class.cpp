@@ -1,12 +1,15 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
 class MyString{
     char * string_content;
     int string_length;
     int memory_capacity;
 
+    //string.h의 strlen 를 만든 것
+    int strlen(const char * source);
+
     public:
+
         MyString(char c);
         MyString(const char * source);
         MyString(const MyString& source);
@@ -14,9 +17,6 @@ class MyString{
 
         int length() const;
         int capacity() const;
-
-        //string.h의 strlen 를 만든 것
-        int strlen(const char * source);
 
         void print() const ;
         void println() const;
@@ -39,7 +39,12 @@ class MyString{
         int compare(const MyString& source);
         int compare(const char * source);
         int compare(char c);
+
+        bool operator==(MyString & source);
 };
+bool MyString::operator==(MyString & source){
+    return !compare(source);
+}
 int MyString::compare(const MyString & source){
     
     int compare_length=std::min(string_length,source.string_length);
@@ -212,6 +217,7 @@ MyString& MyString::assign(const MyString & source){
 
     return * this;
 }
+//생성자부분
 MyString::MyString(const MyString & source){
     string_length=source.string_length;
     memory_capacity=string_length;
@@ -256,8 +262,21 @@ MyString::~MyString(){
     if(string_content)delete[] string_content;
 }
 int main() {
-    MyString s1("asdfg");
-    std::cout<<"찾은 인덱스: "<<s1.find(1,'f')<<std::endl;
+    
+    MyString str1("a word");
+    MyString str2("sentence");
+    MyString str3("sentence");
+
+    if (str1 == str2)
+        std::cout << "str1 와 str2 같다." << std::endl;
+    else
+        std::cout << "st1 와 str2 는 다르다." << std::endl;
+
+    if (str2 == str3)
+        std::cout << "str2 와 str3 는 같다." << std::endl;
+    else
+        std::cout << "st2 와 str3 는 다르다" << std::endl;
+    
 
     return 0;
 }
